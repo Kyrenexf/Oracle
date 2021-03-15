@@ -73,5 +73,19 @@ GROUP BY e.department_id) t,hr.employees e WHERE e.department_id
 
 <img src="image-20210315153424729.png" alt="image-20210315153424729" style="zoom:50%;" />
 
+## 实验参考地址
+
+- Oracle地址：202.115.82.8 用户名：system ， 密码123， 数据库名称：pdborcl，端口号：1521
+- 用户hr默认没有统计权限，运行上述命令时要报错：
+
+```
+无法收集统计信息, 请确保用户具有正确的访问权限。
+统计信息功能要求向用户授予 v_$sesstat, v_$statname 和 v_$session 的选择权限。
+```
+
+- 解决方法：
+  - 普通的用户是不允许查询执行计划，必须要有plustrace角色才可以，所以在运行的时候会报错。所以可以通过“GRANT plustrace to 用户名；”命令将plustrace 赋予用户
+
 ### 实验总结：
 
+​	本次实验，运行了两条语句，通过查阅教材，发现语句对比其中的physical reads和consistent gets，就可以大概的看出两条语句哪个更加好。通过比较，两个的physical reads相同，但是consistent gets的第一个比较小，所以得出结论，是第一个的性能更优。
