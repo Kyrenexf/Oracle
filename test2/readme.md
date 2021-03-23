@@ -83,7 +83,65 @@ SQL> exit
 
 > 测试一下同学用户之间的表的共享，只读共享和读写共享都测试一下。
 
+#### 共享只读
 
+ssh student@202.115.82.8
+
+sqlplus kyrenexf/123@202.115.82.8/pdborcl
+
+1.把我的myview的读权限授权给 new_zgq和MiracleVin
+
+```
+GRANT SELECT ON myview TO new_zgq;
+GRANT SELECT ON mytable TO new_zgq;
+GRANT SELECT ON myview TO MiracleVin;
+GRANT SELECT ON mytable TO MiracleVin;
+
+```
+
+![image-20210323110634972](image-20210323110634972.png)
+
+![image-20210323115136029](image-20210323115136029.png)
+
+![image-20210323115119547](image-20210323115119547.png)
+
+2.在MiracleVin和new_zgq用户将他的只读权限授予我之后查询
+
+```
+SELECT * FROM new_zgq.zgqview;
+SELECT * FROM new_zgq.zgqtable;
+SELECT * FROM MiracleVin.mytable;
+```
+
+![image-20210323110615409](image-20210323110615409.png)
+
+![image-20210323113823739](image-20210323113823739.png)
+
+![image-20210323114154829](image-20210323114154829.png)
+
+#### 读写共享
+
+1、我把我mytable表的写权限授权给MiracleVin和new_zgq
+
+```sql
+GRANT INSERT ON mytable TO new_zgq;
+GRANT INSERT ON mytable TO MiracleVin;
+```
+
+![image-20210323115010636](image-20210323115010636.png)
+
+![image-20210323114950171](image-20210323114950171.png)
+
+2、他们将他们的写权限授予给我后，我插入并查询
+
+```sql
+INSERT INTO MiracleVin.mytable(id,name)VALUES('3','Sherry');
+SELECT * FROM MiracleVin.mytable;
+```
+
+![image-20210323114847067](image-20210323114847067.png)
+
+![image-20210323114858860](image-20210323114858860.png)
 
 ## 数据库和表空间占用分析
 
