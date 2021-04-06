@@ -251,6 +251,8 @@ select count(*) from order_details;
 
 ![image-20210406095117470](image-20210406095117470.png)![image-20210406095130014](image-20210406095130014.png)
 
+1.
+
 ```
 select * from kyrenexf.orders where order_date
 between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yyyy-mm-dd');
@@ -259,6 +261,12 @@ between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yyyy-mm-dd');
 ![image-20210406095610760](image-20210406095610760.png)
 
 ![image-20210406105019031](image-20210406105019031.png)
+
+![image-20210406113236543](image-20210406113236543.png)
+
+分析:成本耗费值Cost=547,Row=1,consistent gets=305,使用了一次全表扫描
+
+2.
 
 ```
 select a.ORDER_ID,a.CUSTOMER_NAME,
@@ -271,6 +279,10 @@ a.order_date between to_date('2017-1-1','yyyy-mm-dd') and to_date('2018-6-1','yy
 ![image-20210406105200877](image-20210406105200877.png)
 
 ![image-20210406105617079](image-20210406105617079.png)
+
+![image-20210406111300314](image-20210406111300314.png)
+
+分析:成本耗费值Cost=2186,Row=1,consistent get=482,使用了一次全表扫描,filter过滤了2次
 
 ## 查看数据库的使用情况
 
